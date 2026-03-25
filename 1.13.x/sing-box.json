@@ -1,0 +1,1040 @@
+{
+  "log": {
+    "level": "debug",
+    "timestamp": true
+  },
+  "experimental": {
+    "clash_api": {
+      "external_controller": "0.0.0.0:9092",
+      "external_ui": "ui",
+      "external_ui_download_url": "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip",
+      "external_ui_download_detour": "节点选择",
+      "secret": "",
+      "default_mode": "rule",
+      "access_control_allow_origin": [
+        "http://yacd.haishan.me",
+        "http://board.zash.run.place",
+        "http://yacd.metacubex.one",
+        "https://metacubex.github.io/metacubexd"
+      ],
+      "access_control_allow_private_network": true
+    },
+    "cache_file": {
+      "enabled": true,
+      "store_rdrc": true
+    }
+  },
+  "inbounds": [
+    {
+      "tag": "tun-in",
+      "type": "tun",
+      "address": [
+        "172.19.0.0/30",
+        "fdfe:dcba:9876::0/126"
+      ],
+      "stack": "system",
+      "auto_route": true,
+      "strict_route": true,
+      "auto_redirect": true,
+      "sniff": true,
+      "route_exclude_address": [
+        "8.219.0.26/32"
+      ],
+      "route_exclude_address_set": [
+        "geoip-cn"
+      ],
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "0.0.0.0",
+          "server_port": 7890
+        }
+      }
+    },
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "0.0.0.0",
+      "listen_port": 7890,
+      "sniff": true,
+      "sniff_override_destination": false,
+      "set_system_proxy": false
+    },    
+    {
+      "type": "socks",
+      "tag": "socks-in",
+      "listen": "0.0.0.0",
+      "listen_port": 7891,
+      "users": [
+        {
+          "username": "Clash",
+          "password": "jDDIc9le"
+        }
+      ]
+    },
+    {
+      "type": "vless",
+      "tag": "vless-in",
+      "listen": "0.0.0.0",
+      "listen_port": 36898,
+      "users": [
+        {
+          "uuid": "7e0df304-b010-4f55-8d4f-cd98ef149b7e",
+          "flow": "xtls-rprx-vision"
+        }
+      ],
+      "tls": {
+        "enabled": true,
+        "server_name": "www.apple.com",
+        "reality": {
+          "enabled": true,
+          "handshake": {
+            "server": "www.apple.com",
+            "server_port": 443
+          },
+          "private_key": "kKy04R63aJXPQzceWejkLrIGzDSceQV5oMEycSswpH0",
+          "short_id": ["01234567"]
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "直连",
+      "domain_resolver": {
+        "server": "local",
+        "rewrite_ttl": 60,
+        "client_subnet": "61.132.163.68",
+        "strategy": "ipv4_only"
+      }
+    },
+    {
+      "tag":"节点选择",
+      "type":"selector",
+      "outbounds":[
+        "手动选择",
+        "自动选择",
+        "自建",
+        "日本",
+        "美国",
+        "香港",
+        "台湾",
+        "新加坡",
+        "其他地区",
+        "测试节点",
+        "直连"
+      ],
+      "default": "自动选择"
+    },
+    {
+      "tag":"PT站点",
+      "type":"selector",
+      "outbounds":[
+        "直连",
+        "节点选择"
+      ],
+      "default": "直连"
+    },
+    {
+      "tag":"奈飞视频",
+      "type":"selector",
+      "outbounds":[
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "节点选择",
+        "其他地区"
+      ],
+      "default": "日本"
+    },
+    {
+      "tag":"巴哈姆特",
+      "type":"selector",
+      "outbounds":[
+        "台湾",
+        "香港",
+        "节点选择"
+      ],
+      "default": "台湾"
+    },
+    {
+      "tag":"AI",
+      "type":"selector",
+      "outbounds":[
+        "日本",
+        "美国",
+        "节点选择"
+
+      ],
+      "default": "美国"
+    },
+    {
+      "tag":"Google",
+      "type":"selector",
+      "outbounds":[
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "其他地区",
+        "节点选择"
+      ],
+      "default": "节点选择"
+    },
+    {
+      "tag":"测速网站",
+      "type":"selector",
+      "outbounds":[
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "其他地区",
+        "节点选择"
+      ],
+      "default": "节点选择"
+    },
+    {
+      "tag":"国外社交软件",
+      "type":"selector",
+      "outbounds":[
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "其他地区",
+        "节点选择"
+      ],
+      "default": "节点选择"
+    },
+
+    {
+      "tag": "哔哩哔哩港澳台",
+      "type": "selector",
+      "outbounds": [
+        "直连",
+        "香港",
+        "台湾",
+        "节点选择"
+      ],
+      "default": "节点选择"
+    },
+
+    {
+      "tag":"Spotify",
+      "type":"selector",
+      "outbounds":[
+        "节点选择",
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "其他地区"
+      ],
+      "default": "美国"
+    },
+    {
+      "tag":"TikTok",
+      "type":"selector",
+      "outbounds":[
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "节点选择",
+        "美国"
+      ],
+      "default": "日本"
+    },
+
+    {
+      "tag":"Disney+",
+      "type":"selector",
+      "outbounds":[
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "其他地区",
+        "节点选择"
+      ],
+      "default": "节点选择"
+    },
+    {
+      "tag":"Apple-!cn",
+      "type":"selector",
+      "outbounds":[
+        "直连",
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "节点选择",
+        "其他地区"
+
+      ],
+      "default": "直连"
+    },
+    {
+      "tag":"Microsoft-!cn",
+      "type":"selector",
+      "outbounds":[
+        "直连",
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "节点选择",
+        "其他地区"
+      ],
+      "default": "直连"
+    },
+    {
+      "tag":"Games-!cn",
+      "type":"selector",
+      "outbounds":[
+        "直连",
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "节点选择",
+        "其他地区"
+      ],
+      "default": "节点选择"
+    },
+    {
+      "tag":"Streaming",
+      "type":"selector",
+      "outbounds":[
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "其他地区",
+        "节点选择"
+      ],
+      "default": "节点选择"
+    },
+    {
+      "tag":"国外网站",
+      "type":"selector",
+      "outbounds":[ 
+        "香港",
+        "台湾",
+        "新加坡",
+        "日本",
+        "美国",
+        "其他地区",
+        "直连",
+        "节点选择"
+      ],
+      "default": "节点选择"
+    },
+    {
+      "tag":"国内网站",
+      "type":"selector",
+      "outbounds":[
+        "直连",
+        "节点选择"
+      ],
+      "default": "直连"
+    },
+    {
+      "tag": "自建",
+      "type": "urltest",
+      "outbounds": [
+        "{all}"
+      ],
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "3m",
+      "tolerance": 50,
+      "idle_timeout": "30m",
+      "filter": [
+        {"action": "include", "keywords": ["自建"]},
+        {"action": "exclude", "keywords": ["测试"]}
+      ]
+    },
+    {
+      "tag": "香港",
+      "type": "urltest",
+      "outbounds": [
+        "{all}"
+      ],
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "3m",
+      "tolerance": 50,
+      "idle_timeout": "30m",
+      "filter": [
+        {"action": "include", "keywords": ["🇭🇰|HK|hk|🇭🇰 香港|港|HongKong|Hong Kong"]},
+        {"action": "exclude", "keywords": ["自建|测试"]}
+      ]
+    },
+    {
+      "tag":"测试节点",
+      "type":"selector",
+      "outbounds":[
+        "{all}"
+      ],
+       "filter": [
+        {"action": "include", "keywords": ["测试"]}
+      ]
+    },
+    {
+      "tag": "台湾",
+      "type": "urltest",
+      "outbounds": [
+        "{all}"
+      ],
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "3m",
+      "tolerance": 50,
+      "idle_timeout": "30m",
+      "filter": [
+        {"action": "include", "keywords": ["🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|taiwan"]},
+        {"action": "exclude", "keywords": ["自建|测试"]}
+      ]
+    },
+    {
+      "tag": "新加坡",
+      "type": "urltest",
+      "outbounds": [
+        "{all}"
+      ],
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "3m",
+      "tolerance": 50,
+      "idle_timeout": "30m",
+      "filter": [
+        {"action": "include", "keywords": ["🇸🇬|SG|sg|新加坡|狮|Singapore"]},
+        {"action": "exclude", "keywords": ["自建|测试"]}
+      ]
+    },
+    {
+      "tag": "日本",
+      "type": "urltest",
+      "outbounds": [
+        "{all}"
+      ],
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "3m",
+      "tolerance": 50,
+      "idle_timeout": "30m",
+      "filter": [
+        {"action": "include", "keywords": ["🇯🇵|JP|jp|日本|日|Japan"]},
+        {"action": "exclude", "keywords": ["自建|测试"]}
+      ]
+    },
+    {
+      "tag": "美国",
+      "type": "urltest",
+      "outbounds": [
+        "{all}"
+      ],
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "3m",
+      "tolerance": 50,
+      "idle_timeout": "30m",
+      "filter": [
+        {"action": "include", "keywords": ["🇺🇸|US|us|美国|美|United States"]},
+        {"action": "exclude", "keywords": ["自建|测试"]}
+      ]
+    },
+    {
+      "tag": "其他地区",
+      "type": "urltest",
+      "outbounds": [
+        "{all}"
+      ],
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "3m",
+      "tolerance": 50,
+      "idle_timeout": "30m",
+      "filter": [
+        {"action": "exclude", "keywords": ["🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇯🇵|JP|jp|日本|日|🇺🇸|US|us|美国|美|🇸🇬|SG|sg|新加坡|狮|Singapore"]},
+        {"action": "exclude", "keywords": ["自建|测试"]}
+      ]
+    },
+    {
+      "tag":"手动选择",
+      "type":"selector",
+      "outbounds":[
+        "{all}"
+      ]
+    },
+    {
+      "tag":"自动选择",
+      "type":"urltest",
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"exclude","keywords":["网站|地址|剩余|过期|时间|有效|Traffic|Expire|自建|测试|直连"]},
+        {"action": "include", "keywords": ["🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇯🇵|JP|jp|日本|日|🇺🇸|US|us|美国|美|🇸🇬|SG|sg|新加坡|狮|Singapore"]}
+      ],
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "10m",
+      "tolerance": 50
+    }
+
+  ],
+  "route": {
+    "rules": [
+      {
+        "action": "sniff",
+        "inbound": [
+          "tun",
+          "mixed-in",
+          "sock-in",
+          "tun",
+          "mixed-in",
+          "sock-in",
+          "vless-in"
+        ]
+      },
+      {
+        "action": "hijack-dns",
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 53
+          },
+          {
+            "protocol": "dns"
+          }
+        ]
+      },
+      {
+        "action": "reject",
+        "protocol": "quic",
+        "method": "default"
+      },
+      {
+        "action": "reject",
+        "rule_set": [
+          "geosite-category-ads-all"
+        ],
+        "method": "default"
+      },
+      {
+        "action": "route",
+        "clash_mode": "direct",
+        "outbound": "直连"
+      },
+      {
+        "action": "route",
+        "clash_mode": "global",
+        "outbound": "节点选择"
+      },
+      {
+        "action": "route",
+        "domain": [
+          "clash.razord.top",
+          "yacd.metacubex.one",
+          "yacd.haishan.me",
+          "d.metacubex.one"
+        ],
+        "domain_suffix": [
+          ".cn",
+          ".id9527.top",
+          ".ts.net",
+          ".galaxyappstore.com"
+        ],
+        "domain_keyword": [
+          "tailscale"
+        ],
+        "outbound": "直连"
+      },
+      {
+        "action": "route",
+        "ip_is_private": true,
+        "outbound": "直连"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "pt"
+        ],
+        "outbound": "PT站点"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geoip-cn",
+          "geosite-cn",
+          "geosite-wechat",
+          "geosite-apple-cn",
+          "geosite-amazon-cn"
+        ],
+        "outbound": "国内网站"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-openai"
+        ],
+        "outbound": "AI"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geoip-google",
+          "geosite-google",
+          "geosite-github"
+        ],
+        "outbound": "Google"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-dmm"
+        ],
+        "outbound": "日本"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geoip-twitter",
+          "geosite-twitter",
+          "geoip-facebook",
+          "geosite-facebook",
+          "geoip-telegram",
+          "geosite-telegram"
+        ],
+        "outbound": "国外社交软件"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-bilibili-!cn"
+        ],
+        "outbound": "哔哩哔哩港澳台"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-bahamut"
+        ],
+        "outbound": "巴哈姆特"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-spotify"
+        ],
+        "outbound": "Spotify"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-tiktok"
+        ],
+        "outbound": "TikTok"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geoip-netflix",
+          "geosite-netflix"
+        ],
+        "outbound": "奈飞视频"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-disney"
+        ],
+        "outbound": "Disney+"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geoip-apple"
+        ],
+        "outbound": "Apple-!cn"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-microsoft"
+        ],
+        "outbound": "Microsoft-!cn"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-category-games-!cn"
+        ],
+        "outbound": "Games-!cn"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-hbo",
+          "geosite-primevideo"
+        ],
+        "outbound": "Streaming"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "networktest"
+        ],
+        "outbound": "测速网站"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-geolocation-!cn"
+        ],
+        "outbound": "国外网站"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "networktest",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-speedtest@!cn.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-wechat",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/Toperlock/sing-box-geosite/main/wechat.json",
+        "format": "source",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-category-ads-all",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-ads-all.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-openai",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-category-ai-!cn.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geoip-google",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/google.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-google",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-google.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-github",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/github.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geoip-telegram",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/telegram.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-telegram",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/telegram.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geoip-twitter",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/twitter.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-twitter",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/twitter.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geoip-facebook",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/facebook.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-facebook",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/facebook.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-bilibili-!cn",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/bilibili@!cn.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-bahamut",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-bahamut.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-spotify",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/spotify.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-tiktok",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/tiktok.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geoip-netflix",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/netflix.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-netflix",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/netflix.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-disney",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-disney.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geoip-apple",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/apple.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-apple-cn",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-apple@cn.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-amazon-cn",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-amazon@cn.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-microsoft",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-microsoft.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-category-games-!cn",
+        "type": "remote",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/category-games-!cn.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-dmm",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/dmm.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-hbo",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-hbo.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-primevideo",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/primevideo.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-geolocation-!cn",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/geolocation-!cn.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geoip-cn",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-cn",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/cn.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "pt",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/Tsmbest/geosite/refs/heads/main/sing-box_rule/pt.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      }
+    ],
+    "auto_detect_interface": true,
+    "final": "国外网站",
+    "default_domain_resolver": {
+      "server": "google",
+      "rewrite_ttl": 60,
+      "strategy": "ipv4_only"
+    }
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "Local-DNS-Resolver",
+        "type": "udp",
+        "server": "114.114.114.114"
+      },
+      {
+        "tag": "local",
+        "type": "https",
+        "domain_resolver": "Local-DNS-Resolver",
+        "server_port": 443,
+        "server": "223.5.5.5",
+        "path": "/dns-query"
+      },
+      {
+        "tag": "cloudflare",
+        "type": "udp",
+        "server": "1.1.1.1"
+      },
+      {
+        "tag": "google",
+        "type": "https",
+        "detour": "节点选择",
+        "domain_resolver": "cloudflare",
+        "server": "8.8.8.8",
+        "domain_strategy": "ipv4_only"
+      }
+    ],
+    "rules": [
+      {
+        "action": "predefined",
+        "rule_set": [
+          "geosite-category-ads-all"
+        ],
+        "rcode": "REFUSED"
+      },
+      {
+        "action": "route",
+        "domain_suffix": [
+          "id9527.top",
+          "weixin.qq.com"
+        ],
+        "server": "local"
+      },
+      {
+        "action": "route",
+        "domain": [
+          "clash.razord.top",
+          "yacd.metacubex.one",
+          "yacd.haishan.me",
+          "d.metacubex.one"
+        ],
+        "domain_suffix": [
+          ".cn",
+          ".id9527.top",
+          ".ts.net",
+          ".galaxyappstore.com"
+        ],
+        "domain_keyword": [
+          "tailscale"
+        ],
+        "server": "local"
+      },
+      {
+        "action": "predefined",
+        "query_type": "HTTPS",
+        "rcode": "REFUSED"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "pt"
+        ],
+        "server": "google"
+      },
+      {
+        "action": "route",
+        "clash_mode": "direct",
+        "server": "local"
+      },
+      {
+        "action": "route",
+        "clash_mode": "global",
+        "server": "google"
+      },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-cn"
+        ],
+        "server": "local"
+      }
+    ],
+    "disable_cache": true,
+    "disable_expire": false,
+    "independent_cache": false,
+    "final": "google",
+    "strategy": "ipv4_only"
+  }
+}
