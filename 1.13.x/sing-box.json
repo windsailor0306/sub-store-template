@@ -285,7 +285,7 @@
       "default": "直连"
     },
     {
-      "tag":"Microsoft-!cn",
+      "tag":"Microsoft@cn",
       "type":"selector",
       "outbounds":[
         "直连",
@@ -634,9 +634,9 @@
       {
         "action": "route",
         "rule_set": [
-          "geosite-microsoft"
+          "geosite-microsoft@cn"
         ],
-        "outbound": "Microsoft-!cn"
+        "outbound": "Microsoft@cn"
       },
       {
         "action": "route",
@@ -831,9 +831,9 @@
         "download_detour": "香港"
       },
       {
-        "tag": "geosite-microsoft",
+        "tag": "geosite-microsoft@cn",
         "type": "remote",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-microsoft.srs",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-microsoft@cn.srs",
         "format": "binary",
         "download_detour": "香港"
       },
