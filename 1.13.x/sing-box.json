@@ -460,7 +460,7 @@
       {
         "action": "sniff",
         "inbound": [
-          "tun",
+          "tun-in",
           "mixed-in",
           "sock-in",
           "tun",

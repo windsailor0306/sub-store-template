@@ -13,70 +13,58 @@ let proxies = await produceArtifact({
 config.outbounds.push(...proxies);
 
 // ===== 配置每个分组的排除规则 =====
-// 键是分组 tag，值是一个正则，匹配到就排除
+// 只要在这里定义的正则，匹配到的节点都会被剔除
 const excludeRules = {
-  '香港': /自建|测试/i,          // 香港分组排除自建和测试
-  '台湾': /自建|测试/i,          // 台湾分组排除自建和测试
-  '日本': /自建|测试/i,          // 日本分组排除自建和测试
-  '新加坡': /自建|测试/i,        // 新加坡排除自建和测试
-  '美国': /自建|测试/i,          // 美国排除自建和测试
-  '其他地区': /自建|测试/i       // 其他地区排除自建和测试
-  // 你可以在这里添加更多自定义规则，例如排除特定运营商
+  'default': /自建|测试/i, // 默认排除规则
+  '自建': null,           // 明确不执行排除
+  '测试节点': null        // 明确不执行排除
+};
+
+// 国家/区域匹配正则
+const countryRegexMap = {
+  '香港': /港|hk|hongkong|hong kong|🇭🇰/i,
+  '台湾': /台|tw|taiwan|🇹🇼/i,
+  '日本': /日本|jp|japan|🇯🇵/i,
+  '新加坡': /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i,
+  '美国': /美|us|unitedstates|united states|🇺🇸/i,
+  '自动选择': /港|hk|hongkong|hong kong|🇭🇰|台|tw|taiwan|🇹🇼|日本|jp|japan|🇯🇵|新|sg|singapore|🇸🇬|美|us|unitedstates|united states|🇺🇸/i
 };
 
 // ===== 主逻辑 =====
 config.outbounds.forEach(i => {
   let matchedTags = [];
+  const tag = i.tag;
 
-  // 手动选择/自动选择保持全部节点
-  if (['手动选择', '自动选择'].includes(i.tag)) {
-    matchedTags.push(...getTags(proxies));
+  // 1. 匹配逻辑：决定哪些节点“候选”进入该组
+  if (tag === '手动选择') {
+    // 手动选择获取所有节点
+    matchedTags = getTags(proxies);
+  } else if (countryRegexMap[tag]) {
+    // 命中具体国家或“自动选择”
+    matchedTags = getTags(proxies, countryRegexMap[tag]);
+  } else if (tag === '其他地区') {
+    matchedTags = getOtherTags(proxies);
+  } else if (tag === '自建') {
+    matchedTags = getTags(proxies, /自建/i);
+  } else if (tag === '测试节点') {
+    matchedTags = getTags(proxies, /测试|自建/i);
   }
 
-  // 国家分组/其他地区
-  const countryRegexMap = {
-    '香港': /港|hk|hongkong|hong kong|🇭🇰/i,
-    '台湾': /台|tw|taiwan|🇹🇼/i,
-    '日本': /日本|jp|japan|🇯🇵/i,
-    '新加坡': /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i,
-    '美国': /美|us|unitedstates|united states|🇺🇸/i
-  };
+  // 2. 排除逻辑：统一处理不需要的节点
+  // 如果 excludeRules 没定义该 tag，则使用 default 规则
+  const rule = excludeRules[tag] !== undefined ? excludeRules[tag] : excludeRules['default'];
 
-  if (countryRegexMap[i.tag]) {
-    let nodes = getTags(proxies, countryRegexMap[i.tag]);
-    if (excludeRules[i.tag]) {
-      nodes = nodes.filter(tag => !excludeRules[i.tag].test(tag));
-    }
-    matchedTags.push(...nodes);
+  if (rule && matchedTags.length > 0) {
+    matchedTags = matchedTags.filter(nodeTag => !rule.test(nodeTag));
   }
 
-  // 其他地区
-  if (['其他地区'].includes(i.tag)) {
-    let nodes = getOtherTags(proxies);
-    if (excludeRules[i.tag]) {
-      nodes = nodes.filter(tag => !excludeRules[i.tag].test(tag));
-    }
-    matchedTags.push(...nodes);
-  }
-
-  // 自建分组：保留自建节点
-  if (['自建'].includes(i.tag)) {
-    matchedTags.push(...getTags(proxies, /自建/i));
-  }
-
-  // 测试节点分组：保留测试节点
-  if (['测试节点'].includes(i.tag)) {
-    matchedTags.push(...getTags(proxies, /测试|自建/i));
-  }
-
-  // ✅ 非空才创建 outbounds，并去重
+  // 3. 赋值并去重
   if (matchedTags.length > 0) {
     i.outbounds = [...new Set(matchedTags)];
   }
 });
 
 $content = JSON.stringify(config, null, 2);
-
 
 // ===== 工具函数 =====
 function getTags(proxies, regex) {
