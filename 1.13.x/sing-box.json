@@ -166,6 +166,8 @@
       "outbounds":[
         "日本",
         "美国",
+        "台湾",
+        "新加坡",
         "节点选择"
 
       ],
@@ -285,7 +287,7 @@
       "default": "直连"
     },
     {
-      "tag":"Microsoft@cn",
+      "tag":"Microsoft",
       "type":"selector",
       "outbounds":[
         "直连",
@@ -542,7 +544,8 @@
           "geosite-cn",
           "geosite-wechat",
           "geosite-apple-cn",
-          "geosite-amazon-cn"
+          "geosite-amazon-cn",
+          "geosite-microsoft-cn"
         ],
         "outbound": "国内网站"
       },
@@ -634,13 +637,6 @@
       {
         "action": "route",
         "rule_set": [
-          "geosite-microsoft@cn"
-        ],
-        "outbound": "Microsoft@cn"
-      },
-      {
-        "action": "route",
-        "rule_set": [
           "geosite-category-games-!cn"
         ],
         "outbound": "Games-!cn"
@@ -660,6 +656,13 @@
         ],
         "outbound": "测速网站"
       },
+      {
+        "action": "route",
+        "rule_set": [
+          "geosite-microsoft"
+        ],
+        "outbound": "Microsoft"
+      },      
       {
         "action": "route",
         "rule_set": [
@@ -831,9 +834,16 @@
         "download_detour": "香港"
       },
       {
-        "tag": "geosite-microsoft@cn",
+        "tag": "geosite-microsoft-cn",
         "type": "remote",
         "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-microsoft@cn.srs",
+        "format": "binary",
+        "download_detour": "香港"
+      },
+      {
+        "tag": "geosite-microsoft",
+        "type": "remote",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-microsoft.srs",
         "format": "binary",
         "download_detour": "香港"
       },
